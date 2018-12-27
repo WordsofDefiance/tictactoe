@@ -1,0 +1,48 @@
+@import 'variables';
+
+/* Utility Classes */
+
+.flex-container {
+    display: flex;
+}
+
+.flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.center {
+    text-align: center;
+}
+
+body {
+    height: 100%;
+    font-family: Open-Sans;
+    background-color: $background;
+}
+
+#app {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.square {
+    border: 1px solid firebrick;
+    min-width: 100px;
+    max-width: 400px;
+    width: 33%;
+    height: 200px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $letterSize;
+    &:hover {
+        background-color: gray;
+    }
+}
+
+
