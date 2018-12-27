@@ -1,49 +1,62 @@
 console.log('game.js has loaded');
 
-//Controlling what happens when you click a square
 
-var squares = document.querySelectorAll('.square'),
+var squares             = document.querySelectorAll('.square'),
 square,
-turn = "X",
-turnTellerContainer = document.querySelector('.turn-teller'),
-turnTeller = document.getElementById('x-or-o'),
-turns = 0;
+turn                    = "X",
+turnTellerContainer     = document.querySelector('.turn-teller'),
+turnTeller              = document.getElementById('x-or-o'),
+turns                   = 0,
+activeGame              = true;
+
+
+// Initializing the game by adding the event listener to the squares
 
 for (i=0; i < squares.length; i++) {
     square = squares[i];
 
-    // here's what happens when you click a square
-    square.addEventListener( 'click', function (){
-        // Check if all the turns have been taken
-            //if so, stop the game and give an alert.
-        if (turns == 9) {
-            return;
-        }
-
-        // Fill box with "X" or "O", depending on the value of the "turn" variable
-        if (this.innerHTML.length === 0 && turn === "X" ) {
-            this.innerHTML =  "X";
-            turn = "O"
-            turns++;
-        }  else if (this.innerHTML.length === 0 && turn === "O") {
-           this.innerHTML = "O";
-           turn = "X";
-           turns++;
-        }
-        // Tell us whose turn it is 
-        turnTeller.innerHTML = whoseTurn();        
-        if (turns == 9) {
-            document.querySelector('#alertBox').innerHTML = "The Game Is Over!";
-            turnTellerContainer.style.display = "none";
-        }
-        // Check if there's a winner
-        if( checkForWinner() ) {
-            document.querySelector('#alertBox').innerHTML = checkForWinner();
-        }
-        
-    });
+    // Adding the event listener 
+    square.addEventListener( 'click', clickOnSquare() );
 }
 
+
+// The eventListener for clicking on a square
+
+function clickOnSquare() {
+	// Check if all the turns have been taken
+		//if so, stop the game and give an alert.
+	if (turns == 9) {
+		return;
+	}
+
+    var _this = this;	
+
+	// Fill box with "X" or "O", depending on the value of the "turn" variable
+	if (_this.innerHTML.length === 3 && turn == "X" ) {
+		_this.innerHTML =  "X";
+		turn = "O"
+		turns++;
+	}  else if (_this.innerHTML.length === 0 && turn === "O") {
+	   _this.innerHTML = "O";
+	   turn = "X";
+	   turns++;
+	}
+	// Tell us whose turn it is 
+	turnTeller.innerHTML = whoseTurn();        
+	if (turns == 9) {
+		document.querySelector('#alertBox').innerHTML = "The Game Is Over!";
+		turnTellerContainer.style.display = "none";
+	}
+	// Check if there's a winner
+	if( checkForWinner() ) {
+		document.querySelector('#alertBox').innerHTML = checkForWinner();
+		toggleClicks();
+	}
+	
+};
+
+
+// Check whose turn it is 
 function whoseTurn() {
     if ( turn === "X") {
         return "X";
@@ -53,6 +66,8 @@ function whoseTurn() {
 
 }
 
+// This function checks if there's a winner after each turn. It gets called whenver a square is clicked. 
+// Returns false if no winner detected, otherwise returns name of winner.
 
 function checkForWinner() {
     var topLeft         = document.querySelector('.horizontal-1.vertical-1').innerHTML,
@@ -123,3 +138,15 @@ reset.addEventListener('click', function(e) {
     document.querySelector('#alertBox').innerHTML = "";
     turnTellerContainer.style.display = "block";
 });
+
+
+//Todo: Create function that disables squares when game is over. 
+//
+function toggleClicks() {
+    console.log('toggleClicks()');
+    if ( checkForWinner() ) {
+        for ( var i = 0; i < squares.length; i++) {
+            squares[i].removeEventListener('click', click);
+        }
+    }
+}
