@@ -1,7 +1,7 @@
 console.log('game.js has loaded');
 
 
-var squares             = document.querySelectorAll('.square'),
+let squares             = document.querySelectorAll('.square'),
 square,
 turn                    = "X",
 turnTellerContainer     = document.querySelector('.turn-teller'),
@@ -12,32 +12,29 @@ activeGame              = true;
 
 // Initializing the game by adding the event listener to the squares
 
-for (i=0; i < squares.length; i++) {
-    square = squares[i];
-
-    // Adding the event listener 
-    square.addEventListener( 'click', clickOnSquare() );
-}
-
+squares.forEach(square => {
+    square.addEventListener("click", clickOnSquare);
+});
 
 // The eventListener for clicking on a square
 
-function clickOnSquare() {
-	// Check if all the turns have been taken
+function clickOnSquare(event) {
+    
+	
+    // Check if all the turns have been taken
 		//if so, stop the game and give an alert.
 	if (turns == 9) {
 		return;
 	}
 
-    var _this = this;	
 
 	// Fill box with "X" or "O", depending on the value of the "turn" variable
-	if (_this.innerHTML.length === 3 && turn == "X" ) {
-		_this.innerHTML =  "X";
+	if (this.innerHTML.length === 0 && turn == "X" ) {
+		this.innerHTML =  "X";
 		turn = "O"
 		turns++;
-	}  else if (_this.innerHTML.length === 0 && turn === "O") {
-	   _this.innerHTML = "O";
+	}  else if (this.innerHTML.length === 0 && turn === "O") {
+	   this.innerHTML = "O";
 	   turn = "X";
 	   turns++;
 	}
@@ -126,7 +123,7 @@ function checkForWinner() {
 // Clears the squares
 // Clears the alert box
 // Shows the turn teller container if it is hidden
-var reset = document.getElementById('reset-button');
+let reset = document.getElementById('reset-button');
 reset.addEventListener('click', function(e) {
     console.log("reset");
     e.preventDefault();
@@ -145,8 +142,8 @@ reset.addEventListener('click', function(e) {
 function toggleClicks() {
     console.log('toggleClicks()');
     if ( checkForWinner() ) {
-        for ( var i = 0; i < squares.length; i++) {
-            squares[i].removeEventListener('click', click);
-        }
+        squares.forEach(square => {
+            square.removeEventListener('click', click);
+        });
     }
 }
